@@ -1,0 +1,56 @@
+#!/usr/bin/perl -w
+use strict;
+
+$/ = '';
+
+print "<recipe>\n";
+while (<>) {
+    chomp;
+    s/^\s+//g;
+    s/\s+$//g;
+    if (/^##\s+(.*)/) {
+	# title
+	print "<title>$1</title>";
+    } elsif (/^\d/) {
+	# ingredient list
+	print '<ingredients>';
+	foreach (split /\n/, $_) {
+            /^\s+/ ? print '<note>' . apply_symbols($_) . '</note>'
+                   : print '<ingredient>' . apply_symbols($_) . '</ingredient>';
+	}
+	print '</ingredients>';
+    } else {
+        # TODO: catch special body paragraphs, like "Note:", "Serves", "Yields", etc.
+	# body
+	# fold the lines together
+	s/\n/ /;
+	print '<para>' . apply_symbols($_) . '</para>';
+    }
+}
+print '</recipe>';
+
+
+sub apply_symbols {
+    my $string = shift;
+    for ($string) {
+	# numeric dimensions
+	s/(\d)x/$1⨯/g;
+	# temperature
+	s/(\d)\s*deg.(\s*F)?/$1℉/g;
+	# fractions
+	s{1/3}{⅓}g;
+	s{2/3}{⅔}g;
+	s{1/4}{¼}g;
+	s{1/2}{½}g;
+	s{3/4}{¾}g;
+        s{1/8}{⅛}g;
+	# inches
+	s/(\d)[ -]?(in\.|in\b|inch)/$1″/g;
+	# numeric range en dashes
+	s/(\d)-(\d)/$1–$2/g;
+	# remove dash before vulgar fractions
+	s/(\d)-([¼½¾⅓⅔])/$1$2/g;
+    }
+    return $string;
+}
+
