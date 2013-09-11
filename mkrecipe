@@ -1,7 +1,6 @@
 #!/bin/bash
 
-./recipe2xml $1 | xsltproc --stringparam size 11x8.5 recipe.xsl - > recipe.fo
-
-fop -c font.cfg -fo recipe.fo -pdf $1.pdf 2> /dev/null
-
-rm recipe.fo
+fop -c font.cfg \
+    -fo <(./recipe2xml $1 | xsltproc --stringparam size 11x8.5 recipe.xsl -) \
+    -pdf $1.pdf \
+    2> /dev/null
