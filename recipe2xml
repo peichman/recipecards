@@ -1,9 +1,11 @@
 #!/usr/bin/perl -w
 use strict;
 
+#TODO: look at this existing XML format: http://www.happy-monkey.net/recipebook/doc/author-tutorial.html
+
 $/ = '';
 
-print "<recipe>\n";
+print qq{<recipe xmlns="http://xmlns.grim.ath.cx/recipe">\n};
 while (<>) {
     chomp;
     s/^\s+//g;
@@ -36,7 +38,7 @@ sub apply_symbols {
 	# numeric dimensions
 	s/(\d)x/$1⨯/g;
 	# temperature
-	s/(\d)\s*deg.(\s*F)?/$1℉/g;
+	s/(\d)\s*deg(\.|rees)(\s*F)?/$1℉/g;
 	# fractions
 	s{1/3}{⅓}g;
 	s{2/3}{⅔}g;
