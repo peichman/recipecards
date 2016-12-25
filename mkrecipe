@@ -2,5 +2,4 @@
 
 fop -c font.cfg \
     -fo <(./recipe2xml $1 | xsltproc --stringparam size 11x8.5 recipe.xsl -) \
-    -pdf $1.pdf \
-    2> /dev/null
+    -pdf $1.pdf
