@@ -1,5 +1,10 @@
 # recipecards
 
+A simple set of scripts and stylesheets for converting a text format for
+writing recipes into nicely formatted PDF files suitable for printing. It
+inserts such typographical niceties as vulgar fractions, en dashes for
+numerical ranges, and degree and inch symbols instead of textual abbreviations.
+
 ## Prerequisites
 
 * FOP
